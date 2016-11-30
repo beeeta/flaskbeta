@@ -1,0 +1,26 @@
+{% extends "base/base.html" %}
+{% block title %}This is an example page{% endblock %}
+{% block styles %}
+    {{ super() }}
+    <link href="/static/index.css" rel="stylesheet">
+{% endblock %}
+{% block metas %}
+    {{ super() }}
+{% endblock %}
+{% block navbar %}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+      <form class="form-signin" action="/login" method="post">
+        <h2 class="form-signin-heading">请登录</h2>
+        <label for="inputUsername" class="sr-only">用户名：</label>
+        <input type="text" id="inputUsername" name="username" class="form-control" placeholder="用户名" required autofocus>
+          <br/>
+        <label for="inputPassword" class="sr-only">密码：</label>
+        <input type="password" id="inputPassword" name="password" class="form-control" placeholder="密码" required>
+         <br/>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+      </form>
+    </div>
+{% endblock %}
