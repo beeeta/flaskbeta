@@ -19,6 +19,9 @@
           <br/>
         <label for="inputPassword" class="sr-only">密码：</label>
         <input type="password" id="inputPassword" name="password" class="form-control" placeholder="密码" required>
+          {% for message in get_flashed_messages() %}
+            <span>{{ message }}</span>
+          {% endfor %}
          <br/>
         <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
       </form>

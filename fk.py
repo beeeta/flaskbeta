@@ -4,7 +4,6 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bootstrap import Bootstrap
 import logging
 
-
 app = Flask(__name__)
 sql = SQLAlchemy(app)
 boot = Bootstrap(app)
@@ -38,7 +37,7 @@ def login():
             logging.debug('username:%s,password:%s' %(request.form.get('username',None),request.form.get('password',None)))
             return redirect(url_for('index'))
         else:
-            flash("用户名或密码错误")
+            flash("鐢ㄦ埛鍚嶆垨瀵嗙爜閿欒")
             logging.debug('login failed,%s,%s' % (request.form.get('username',None),request.form.get('password',None)))
             print("login failed,%s,%s" % (request.form.get('username',None),request.form.get('password',None)))
     return render_template("/login.html")

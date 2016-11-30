@@ -3,3 +3,10 @@
     padding: 15px;
     margin: 0 auto;
 }
+.panel-default{
+    width: 970px;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
