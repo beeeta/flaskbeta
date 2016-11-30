@@ -5,7 +5,9 @@ from flask_bootstrap import Bootstrap
 import logging
 
 app = Flask(__name__)
-sql = SQLAlchemy(app)
+app.config['SQLALCHEMY_DATABASE_URI'] ='mysql://root:123456@localhost/flask'
+app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
+db = SQLAlchemy(app)
 boot = Bootstrap(app)
 logging.basicConfig(level=logging.DEBUG,
                 format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
@@ -41,6 +43,38 @@ def login():
             logging.debug('login failed,%s,%s' % (request.form.get('username',None),request.form.get('password',None)))
             print("login failed,%s,%s" % (request.form.get('username',None),request.form.get('password',None)))
     return render_template("/login.html")
+
+
+class User(db.Model):
+    __tablename__ = 't_users'
+    id = db.Column(db.BigInteger,primary_key=True)
+    username = db.Column(db.String(255),unique=True)
+    password = db.Column(db.String(255))
+    def __init__(self,username,password):
+        self.username = username
+        self.password = password
+
+    def __repr__(self):
+        return '<User %r>' % self.username+','+self.password
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 if __name__ == '__main__':
     app.secret_key = 'hard to guess'
