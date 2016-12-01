@@ -57,25 +57,6 @@ class User(db.Model):
     def __repr__(self):
         return '<User %r>' % self.username+','+self.password
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 if __name__ == '__main__':
     app.secret_key = 'hard to guess'
     app.config['SESSION_TYPE'] = 'filesystem'
