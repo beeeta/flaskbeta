@@ -28,6 +28,8 @@ def errorHandler(e):
 def index():
     if session.get('user') is None:
         return redirect(url_for("login"))
+    role_one = Role('bibi')
+    user_one = User(username='xiao',password='hong',)
     return render_template('/index.html')
 
 @app.route('/login',methods=['POST','GET'])
@@ -50,6 +52,8 @@ class User(db.Model):
     id = db.Column(db.BigInteger,primary_key=True)
     username = db.Column(db.String(255),unique=True)
     password = db.Column(db.String(255))
+    roleid = db.Column(db.BigInteger,db.ForeignKey('t_roles.id'))
+
     def __init__(self,username,password):
         self.username = username
         self.password = password
@@ -57,7 +61,19 @@ class User(db.Model):
     def __repr__(self):
         return '<User %r>' % self.username+','+self.password
 
+class Role(db.Model):
+    __tablename__='t_roles'
+    id = db.Column(db.BigInteger,primary_key=True)
+    roletype = db.Column(db.String(30),unique=True)
+    users = db.relationship('User',backref='role')
+
+    def __init__(self,roletype):
+        self.roletype = roletype
+
+    def __repr__(self):
+        return '<Role %r>' % self.roletype
+
 if __name__ == '__main__':
     app.secret_key = 'hard to guess'
-    app.config['SESSION_TYPE'] = 'filesystem'
+    # app.config['SESSION_TYPE'] = 'filesystem'
     app.run()
