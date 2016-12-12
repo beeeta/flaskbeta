@@ -2,22 +2,57 @@ from flask import request,session,Flask,render_template,make_response, \
     url_for,redirect,abort,g,flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_bootstrap import Bootstrap
-from model import User,Role
+from flask_mail import  Mail
+import os
+
+# from model import User,Role
 # from flask_moment import Moment
 import logging
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] ='mysql+pymysql://root:123456@localhost/bbq'
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+app.config['MAIL_SERVER']='smtp.163.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USE_SSL']=True
+app.config['MAIL_USERNAME']=os.environ.get('MAIL_USERNAME')
+app.config['MAIL_PASSWORD']=os.environ.get('MAIL_PASSWORD')
+
+
 db = SQLAlchemy(app)
 boot = Bootstrap(app)
-# moment = Moment(app)
+mail = Mail(app)
 
 logging.basicConfig(level=logging.DEBUG,
                 format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
                 datefmt='%a, %d %b %Y %H:%M:%S',
                 filename='myapp.log',
                 filemode='w')
+
+
+class User(db.Model):
+    __tablename__ = 't_users'
+    id = db.Column(db.BigInteger,primary_key=True)
+    username = db.Column(db.String(255),unique=True)
+    password = db.Column(db.String(255))
+    roleid = db.Column(db.BigInteger,db.ForeignKey('t_roles.id'))
+    def __init__(self,username,password,roleid):
+        self.username = username
+        self.password = password
+        self.roleid = roleid
+
+    # def __repr__(self):
+    #     return '<User %s>' % self.username+','+self.password+','+self.roleid
+
+class Role(db.Model):
+    __tablename__='t_roles'
+    id = db.Column(db.BigInteger,primary_key=True)
+    roletype = db.Column(db.String(30),unique=True)
+    users = db.relationship('User',backref='role')
+    def __init__(self,roletype):
+        self.roletype = roletype
+
 
 @app.before_first_request
 def initContext():
