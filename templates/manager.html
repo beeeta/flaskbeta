@@ -14,16 +14,15 @@
    <div class="panel panel-default">
   <!-- Default panel contents -->
       <div class="panel-heading">Beta Blog Manager</div>
-      <div class="panel-body">
-        <p>welcome!</p>
+      <div class="panel-body" id="topnav">
+          <!--<button type="button" class="btn btn-primary">写日志</button>-->
+          <a href="{{ url_for('addBlog') }}" class="btn btn-primary btn-lg active" role="button">写日志</a>
       </div>
   <!-- List group -->
       <ul class="list-group">
-        <li class="list-group-item">Cras justo odio</li>
-        <li class="list-group-item">Dapibus ac facilisis in</li>
-        <li class="list-group-item">Morbi leo risus</li>
-        <li class="list-group-item">Porta ac consectetur ac</li>
-        <li class="list-group-item">Vestibulum at eros</li>
+          {% for iterm in logfiles %}
+        <li class="list-group-item"><a href="{{prefix +'showLogDetail/'+ iterm.id|string}}">{{ iterm.title}}</a></li>
+          {% endfor %}
       </ul>
     </div>
 {% endblock %}
