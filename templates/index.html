@@ -20,7 +20,7 @@
   <!-- List group -->
       <ul class="list-group">
           {% for iterm in logfiles %}
-        <li class="list-group-item"><a href="{{prefix + iterm.cturl}}">{{ iterm.title}}</a></li>
+        <li class="list-group-item"><a href="{{prefix +'showLogDetail/'+ iterm.id|string}}">{{ iterm.title}}</a></li>
           {% endfor %}
       </ul>
     </div>

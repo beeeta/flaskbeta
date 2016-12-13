@@ -75,7 +75,7 @@ def errorHandler(e):
 @app.route("/")
 def index():
     files = query_files()
-    prefix = 'http://test/'
+    prefix = request.host_url
     return render_template('/index.html',logfiles = files,prefix = prefix)
 
 @app.route('/login',methods=['POST','GET'])
