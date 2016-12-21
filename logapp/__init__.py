@@ -5,7 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail
 import logging
 
-from logapp.config import config
+from .config import config
 
 bootstrap = Bootstrap()
 mail = Mail()
