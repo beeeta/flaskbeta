@@ -1,14 +1,24 @@
-from flask import Blueprint,render_template,request,redirect,url_for,session
+from flask import Blueprint,render_template,request,redirect,url_for,session,abort
 from ..models.logmodel import User,LogFile
 from ..fk_tools import blogfile_tool
 from ..fk_tools.logutil import log
 import markdown2
-from .. import db
+from .. import db,loginManager
 from ..config import Config
+from flask_login import login_required,current_user,login_user,logout_user
 
-blog = Blueprint('blog',__name__, static_folder='../static',template_folder='templates')
+blog = Blueprint('blog',__name__, static_folder='static',template_folder='templates')
+
+@loginManager.user_loader
+def userlogin(user_id):
+    return User.query.filter_by(id=user_id).first()
+
+@loginManager.unauthorized_handler
+def unauthorized():
+    return redirect(url_for('blog.index'))
 
 @blog.route("/")
+# @cache.cached(timeout=60)
 def index():
     files = query_files()
     prefix = request.host_url
@@ -40,6 +50,7 @@ def addBlog():
         db.session.add(bkFile)
         db.session.commit()
         return redirect(url_for('manager'))
+    return abort(400)
 
 @blog.route('/showLogDetail/<fileId>',methods =['GET'])
 def showLogDetail(fileId):
@@ -56,6 +67,7 @@ def showLogDetail(fileId):
     return render_template('/404.html')
 
 @blog.route('/manager')
+@login_required
 def manager():
     files = query_files()
     prefix = request.host_url
