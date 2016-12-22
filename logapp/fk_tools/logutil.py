@@ -5,7 +5,8 @@ import logging.handlers
 
 initflag = False
 
-log = logging.log(1,'default')
+log = logging.getLogger('spam_application')
+log.setLevel(logging.DEBUG)
 
 def init_log(log_path, logger=None, level=logging.INFO, when="D", backup=7,
              format="%(levelname)s: %(asctime)s: %(filename)s:%(lineno)d * %(thread)d %(message)s",

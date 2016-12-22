@@ -1,7 +1,7 @@
 import uuid
 import datetime
 
-def save_blogfile(parentPath, fileContent):
+def save_file(parentPath, fileContent):
     today = datetime.date.today()
     tstr = today.strftime('%Y%m%d')
     randName = uuid.uuid1().hex

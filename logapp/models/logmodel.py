@@ -1,6 +1,7 @@
 from .. import db
+from flask_login import UserMixin
 
-class User(db.Model):
+class User(db.Model,UserMixin):
     __tablename__ = 't_users'
     id = db.Column(db.BigInteger,primary_key=True)
     username = db.Column(db.String(255),unique=True)
@@ -11,6 +12,9 @@ class User(db.Model):
         self.username = username
         self.password = password
         self.roleid = roleid
+
+    def get_id(self):
+        return self.id
 
 class Role(db.Model):
     __tablename__='t_roles'
